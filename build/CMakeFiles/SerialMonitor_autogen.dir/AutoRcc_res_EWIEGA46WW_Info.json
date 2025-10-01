@@ -1,0 +1,19 @@
+{
+	"BUILD_DIR" : "/home/bai-yu/qt5/SerialMonitor/build/SerialMonitor_autogen",
+	"CMAKE_BINARY_DIR" : "/home/bai-yu/qt5/SerialMonitor/build",
+	"CMAKE_CURRENT_BINARY_DIR" : "/home/bai-yu/qt5/SerialMonitor/build",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/bai-yu/qt5/SerialMonitor",
+	"CMAKE_SOURCE_DIR" : "/home/bai-yu/qt5/SerialMonitor",
+	"INCLUDE_DIR" : "/home/bai-yu/qt5/SerialMonitor/build/SerialMonitor_autogen/include",
+	"INPUTS" : [ "/home/bai-yu/qt5/SerialMonitor/cat.png" ],
+	"LOCK_FILE" : "/home/bai-yu/qt5/SerialMonitor/build/CMakeFiles/SerialMonitor_autogen.dir/AutoRcc_res_EWIEGA46WW_Lock.lock",
+	"MULTI_CONFIG" : false,
+	"OPTIONS" : [ "-name", "res" ],
+	"OUTPUT_CHECKSUM" : "EWIEGA46WW",
+	"OUTPUT_NAME" : "qrc_res.cpp",
+	"RCC_EXECUTABLE" : "/usr/lib/qt5/bin/rcc",
+	"RCC_LIST_OPTIONS" : [ "--list" ],
+	"SETTINGS_FILE" : "/home/bai-yu/qt5/SerialMonitor/build/CMakeFiles/SerialMonitor_autogen.dir/AutoRcc_res_EWIEGA46WW_Used.txt",
+	"SOURCE" : "/home/bai-yu/qt5/SerialMonitor/res.qrc",
+	"VERBOSITY" : 0
+}
