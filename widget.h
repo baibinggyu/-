@@ -23,7 +23,9 @@ private slots:
     void on_pushButtonSend_clicked();
     void on_SerialData_readyToRead();
     void on_checkBoxSendInTime_clicked(bool checked);
-
+    void on_pushButtonReceiveClear_clicked();
+    void on_pushButtonReceiveSave_clicked();
+    void update_time();
 private:
     Ui::Widget *ui;
     QSerialPort * serialPort;
@@ -32,5 +34,6 @@ private:
     int readCount = 0;
     bool serialOpenOrCloseFlag = false; // 默认关闭
     QTimer *timer;
+    QTimer* updateTimer;
 };
 #endif // WIDGET_H

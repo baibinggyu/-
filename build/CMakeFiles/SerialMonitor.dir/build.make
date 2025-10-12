@@ -76,43 +76,43 @@ CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o: CMake
 CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o: SerialMonitor_autogen/mocs_compilation.cpp
 CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o: CMakeFiles/SerialMonitor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/bai-yu/cpp/qt5/SerialMonitor/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o -MF CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o -MF CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o.d -o CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp
 
 CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp > CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp > CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.i
 
 CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp -o CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/build/SerialMonitor_autogen/mocs_compilation.cpp -o CMakeFiles/SerialMonitor.dir/SerialMonitor_autogen/mocs_compilation.cpp.s
 
 CMakeFiles/SerialMonitor.dir/main.cpp.o: CMakeFiles/SerialMonitor.dir/flags.make
 CMakeFiles/SerialMonitor.dir/main.cpp.o: /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp
 CMakeFiles/SerialMonitor.dir/main.cpp.o: CMakeFiles/SerialMonitor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/bai-yu/cpp/qt5/SerialMonitor/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/SerialMonitor.dir/main.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/main.cpp.o -MF CMakeFiles/SerialMonitor.dir/main.cpp.o.d -o CMakeFiles/SerialMonitor.dir/main.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/main.cpp.o -MF CMakeFiles/SerialMonitor.dir/main.cpp.o.d -o CMakeFiles/SerialMonitor.dir/main.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp
 
 CMakeFiles/SerialMonitor.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SerialMonitor.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp > CMakeFiles/SerialMonitor.dir/main.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp > CMakeFiles/SerialMonitor.dir/main.cpp.i
 
 CMakeFiles/SerialMonitor.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SerialMonitor.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp -o CMakeFiles/SerialMonitor.dir/main.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/main.cpp -o CMakeFiles/SerialMonitor.dir/main.cpp.s
 
 CMakeFiles/SerialMonitor.dir/widget.cpp.o: CMakeFiles/SerialMonitor.dir/flags.make
 CMakeFiles/SerialMonitor.dir/widget.cpp.o: /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp
 CMakeFiles/SerialMonitor.dir/widget.cpp.o: CMakeFiles/SerialMonitor.dir/compiler_depend.ts
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green --progress-dir=/home/bai-yu/cpp/qt5/SerialMonitor/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/SerialMonitor.dir/widget.cpp.o"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/widget.cpp.o -MF CMakeFiles/SerialMonitor.dir/widget.cpp.o.d -o CMakeFiles/SerialMonitor.dir/widget.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT CMakeFiles/SerialMonitor.dir/widget.cpp.o -MF CMakeFiles/SerialMonitor.dir/widget.cpp.o.d -o CMakeFiles/SerialMonitor.dir/widget.cpp.o -c /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp
 
 CMakeFiles/SerialMonitor.dir/widget.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Preprocessing CXX source to CMakeFiles/SerialMonitor.dir/widget.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp > CMakeFiles/SerialMonitor.dir/widget.cpp.i
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp > CMakeFiles/SerialMonitor.dir/widget.cpp.i
 
 CMakeFiles/SerialMonitor.dir/widget.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --green "Compiling CXX source to assembly CMakeFiles/SerialMonitor.dir/widget.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp -o CMakeFiles/SerialMonitor.dir/widget.cpp.s
+	/usr/bin/g++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/bai-yu/cpp/qt5/SerialMonitor/widget.cpp -o CMakeFiles/SerialMonitor.dir/widget.cpp.s
 
 # Object files for target SerialMonitor
 SerialMonitor_OBJECTS = \

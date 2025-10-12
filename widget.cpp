@@ -7,6 +7,9 @@
 #include <QDebug>
 #include <QMessageBox>
 #include <QTimer>
+#include <QFile>
+#include <QFileDialog>
+#include <QTime>
 #define SIZE 1024
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
@@ -15,8 +18,13 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     this->serialPort = new QSerialPort(this);
     this->timer = new QTimer(this);
+    this->updateTimer = new QTimer(this);
+    
     QObject::connect(this->serialPort,&QSerialPort::readyRead,this,&Widget::on_SerialData_readyToRead);
     QObject::connect(this->timer,&QTimer::timeout,[=](){on_pushButtonSend_clicked();});
+    QObject::connect(this->updateTimer,&QTimer::timeout,[=](){update_time();});
+    
+    updateTimer->start(std::chrono::milliseconds(1));
 
     this->setLayout(ui->gridLayoutGlobal);
     QList<QSerialPortInfo> serialList = QSerialPortInfo::availablePorts();
@@ -185,4 +193,42 @@ void Widget::on_checkBoxSendInTime_clicked(bool checked)
         ui->pushButtonSend->setEnabled(true);
     }
 }
+
+
+void Widget::on_pushButtonReceiveClear_clicked()
+{
+    ui->textEditRev->clear();
+}
+
+
+void Widget::on_pushButtonReceiveSave_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Save File"),"./serialData.txt",tr("Text(*.txt)"));
+    if(!fileName.isEmpty()){
+        QFile file(fileName);
+        if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
+            QTextStream out(&file);
+            out << ui->textEditRev->toPlainText();
+        }else return;
+        file.close();
+    }else return;   
+    ui->textEditRev->clear();
+}
+
+void Widget::update_time(){
+    QDateTime time = QDateTime::currentDateTime();
+    QDate timeData =  time.date();
+    int year = timeData.year();
+    int month = timeData.month();
+    int day = timeData.day();
+    QTime timeTime = time.time();
+    int hour = timeTime.hour();
+    int minute = timeTime.minute();
+    int second = timeTime.second();
+    QString strLeft = QString("%1-%2-%3").arg(year).arg(month).arg(day);
+    QString strRight = QString("%1:%2:%3").arg(hour).arg(minute).arg(second);
+    ui->labelCurrentDate->setText(strLeft);
+    ui->labelCurrentTime->setText(strRight);
+}
+
 

@@ -84,8 +84,8 @@ clean: CMakeFiles/SerialMonitor_autogen.dir/clean
 # Target rules for target CMakeFiles/SerialMonitor.dir
 
 # All Build rule for target.
-CMakeFiles/SerialMonitor.dir/all: CMakeFiles/SerialMonitor_autogen_timestamp_deps.dir/all
 CMakeFiles/SerialMonitor.dir/all: CMakeFiles/SerialMonitor_autogen.dir/all
+CMakeFiles/SerialMonitor.dir/all: CMakeFiles/SerialMonitor_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SerialMonitor.dir/build.make CMakeFiles/SerialMonitor.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SerialMonitor.dir/build.make CMakeFiles/SerialMonitor.dir/build
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/bai-yu/cpp/qt5/SerialMonitor/build/CMakeFiles --progress-num=1,2,3,4 "Built target SerialMonitor"
@@ -103,8 +103,8 @@ SerialMonitor: CMakeFiles/SerialMonitor.dir/rule
 .PHONY : SerialMonitor
 
 # codegen rule for target.
-CMakeFiles/SerialMonitor.dir/codegen: CMakeFiles/SerialMonitor_autogen_timestamp_deps.dir/all
 CMakeFiles/SerialMonitor.dir/codegen: CMakeFiles/SerialMonitor_autogen.dir/all
+CMakeFiles/SerialMonitor.dir/codegen: CMakeFiles/SerialMonitor_autogen_timestamp_deps.dir/all
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/SerialMonitor.dir/build.make CMakeFiles/SerialMonitor.dir/codegen
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --progress-dir=/home/bai-yu/cpp/qt5/SerialMonitor/build/CMakeFiles --progress-num=1,2,3,4 "Finished codegen for target SerialMonitor"
 .PHONY : CMakeFiles/SerialMonitor.dir/codegen
