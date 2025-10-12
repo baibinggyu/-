@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.20)
 
 project(SerialMonitor VERSION 0.1 LANGUAGES CXX)
 
+message(STATUS ${CMAKE_CXX_COMPILER})
 set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -9,9 +10,21 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets SerialPort)
+if(WIN32)
+    set(CMAKE_GENERATOR "MinGW Makefiles" CACHE STRING "Preferred generator")
+else()
+    set(CMAKE_GENERATOR "Unix Makefiles" CACHE STRING "Preferred generator")
+endif()
+
+message(STATUS "CMAKE_GENERATOR = ${CMAKE_GENERATOR}")
+
+find_package(QT NAMES Qt6 REQUIRED COMPONENTS Widgets SerialPort Gui Core)
 find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets SerialPort)
-set(CMAKE_CXX_COMPILER "/usr/bin/gcc-14")
+file(GLOB QT_INCLUDE CONFIGURE_DEPENDS /usr/include/x86_64-linux-gnu/qt5/* )
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}
+    ${QT_INCLUDE}
+)
 set(PROJECT_SOURCES
         main.cpp
         widget.cpp

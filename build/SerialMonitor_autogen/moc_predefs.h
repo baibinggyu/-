@@ -130,7 +130,6 @@
 #define __BFLT16_DIG__ 2
 #define __GNUC__ 15
 #define __GXX_RTTI 1
-#define __pie__ 2
 #define __MMX__ 1
 #define __FLT_HAS_DENORM__ 1
 #define __SIZEOF_LONG_DOUBLE__ 16
@@ -219,7 +218,7 @@
 #define __DEC_EVAL_METHOD__ 2
 #define __FLT_MANT_DIG__ 24
 #define __LDBL_DECIMAL_DIG__ 21
-#define __VERSION__ "15.2.0"
+#define __VERSION__ "15.2.1 20250808 (Red Hat 15.2.1-1)"
 #define __UINT64_C(c) c ## UL
 #define __cpp_unicode_characters 201411L
 #define __DEC64X_MIN__ 1E-6143D64x
@@ -264,6 +263,7 @@
 #define __INT_LEAST16_TYPE__ short int
 #define __LDBL_EPSILON__ 1.08420217248550443400745280086994171e-19L
 #define __UINTMAX_C(c) c ## UL
+#define __GNUC_RH_RELEASE__ 1
 #define __FLT16_DIG__ 3
 #define __k8 1
 #define __FLT32X_MIN__ 2.22507385850720138309023271733240406e-308F32x
@@ -309,6 +309,7 @@
 #define __DEC64_MANT_DIG__ 16
 #define __FLT32_DENORM_MIN__ 1.40129846432481707092372958328991613e-45F32
 #define __SIG_ATOMIC_WIDTH__ 32
+#define __GCC_DESTRUCTIVE_SIZE 64
 #define __INT_LEAST64_TYPE__ long int
 #define __INT16_TYPE__ short int
 #define __INT_LEAST8_TYPE__ signed char
@@ -343,7 +344,6 @@
 #define __INTPTR_TYPE__ long int
 #define __UINT16_TYPE__ short unsigned int
 #define __WCHAR_TYPE__ int
-#define __pic__ 2
 #define __UINTPTR_MAX__ 0xffffffffffffffffUL
 #define __INT_FAST64_WIDTH__ 64
 #define __INT_FAST64_MAX__ 0x7fffffffffffffffL
@@ -390,7 +390,7 @@
 #define __FLT64_MAX_EXP__ 1024
 #define __cpp_return_type_deduction 201304L
 #define __SIZEOF_WCHAR_T__ 4
-#define __GNUC_PATCHLEVEL__ 0
+#define __GNUC_PATCHLEVEL__ 1
 #define __FLT128_NORM_MAX__ 1.18973149535723176508575932662800702e+4932F128
 #define __FLT64_NORM_MAX__ 1.79769313486231570814527423731704357e+308F64
 #define __FLT128_HAS_QUIET_NAN__ 1
@@ -410,7 +410,6 @@
 #define __FLT32X_MAX__ 1.79769313486231570814527423731704357e+308F32x
 #define __DBL_NORM_MAX__ double(1.79769313486231570814527423731704357e+308L)
 #define __BYTE_ORDER__ __ORDER_LITTLE_ENDIAN__
-#define __GCC_DESTRUCTIVE_SIZE 64
 #define __INTMAX_WIDTH__ 64
 #define __cpp_runtime_arrays 198712L
 #define __FLT32_DIG__ 6
@@ -422,7 +421,6 @@
 #define __INT8_MAX__ 0x7f
 #define __LONG_WIDTH__ 64
 #define __DBL_MIN__ double(2.22507385850720138309023271733240406e-308L)
-#define __PIC__ 2
 #define __INT32_MAX__ 0x7fffffff
 #define __UINT_FAST32_TYPE__ long unsigned int
 #define QT_SERIALPORT_LIB 1
@@ -446,7 +444,6 @@
 #define __GNUC_MINOR__ 2
 #define __GLIBCXX_TYPE_INT_N_0 __int128
 #define __UINTMAX_MAX__ 0xffffffffffffffffUL
-#define __PIE__ 2
 #define __FLT32X_DENORM_MIN__ 4.94065645841246544176568792868221372e-324F32x
 #define __cpp_template_template_args 201611L
 #define __DBL_MAX_10_EXP__ 308

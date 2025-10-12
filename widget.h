@@ -3,7 +3,7 @@
 
 #include <QSerialPort>
 #include <QWidget>
-
+#include <QTimer>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;
@@ -20,9 +20,17 @@ public:
 
 private slots:
     void on_pushButtonCloseOpenSerial_clicked();
+    void on_pushButtonSend_clicked();
+    void on_SerialData_readyToRead();
+    void on_checkBoxSendInTime_clicked(bool checked);
 
 private:
     Ui::Widget *ui;
     QSerialPort * serialPort;
+    QString serialStrRev;
+    int writeCount = 0;
+    int readCount = 0;
+    bool serialOpenOrCloseFlag = false; // 默认关闭
+    QTimer *timer;
 };
 #endif // WIDGET_H
