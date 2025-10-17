@@ -1,3 +1,0 @@
-# Hashes of file build rules.
-ccb677d575306bf5fece46ce7acc3633 CMakeFiles/SerialMonitor_autogen
-eefbaa5b2388573e841c91e847112ce6 SerialMonitor_autogen/timestamp

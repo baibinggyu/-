@@ -10,7 +10,11 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QTime>
+#include <QByteArray>
+#include <iostream>
+#include <mycombobox.h>
 #define SIZE 1024
+#define BUTTONSIZE 12
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::Widget)
@@ -20,23 +24,38 @@ Widget::Widget(QWidget *parent)
     this->timer = new QTimer(this);
     this->updateTimer = new QTimer(this);
     
+    ui->groupBox->setEnabled(false);
+
     QObject::connect(this->serialPort,&QSerialPort::readyRead,this,&Widget::on_SerialData_readyToRead);
     QObject::connect(this->timer,&QTimer::timeout,[=](){on_pushButtonSend_clicked();});
     QObject::connect(this->updateTimer,&QTimer::timeout,[=](){update_time();});
-    
+    QObject::connect(ui->comboBoxSerialNum,&MyComboBox::refresh,this,&Widget::refreshSerialName);
     updateTimer->start(std::chrono::milliseconds(1));
 
     this->setLayout(ui->gridLayoutGlobal);
-    QList<QSerialPortInfo> serialList = QSerialPortInfo::availablePorts();
-    for (const QSerialPortInfo &serialInfo : serialList) {
-        qDebug() << serialInfo.portName();
-        ui->comboBoxSerialNum->addItem(serialInfo.portName());
-    }
+    this->refreshSerialName();
     ui->labelSendStatus->setText("暂未有发送信息!");
     ui->pushButtonSend->setEnabled(false);
     ui->lineEditMS->setEnabled(false);
     ui->checkBoxSendInTime->setEnabled(false);
 
+    QList<QPushButton*> buttons;
+    for(int idx = 1;idx <=  BUTTONSIZE;idx++){
+        QString str;
+        if(idx < 10){
+            str = QString("pushButton0%1").arg(idx);
+            std::cout << str.toStdString() << std::endl;
+        }else{
+            str = QString("pushButton%1").arg(idx);
+            std::cout << str.toStdString() << std::endl;
+        }
+        QPushButton* btn =  findChild<QPushButton*>(str);
+        if(btn != nullptr){ 
+            btn->setProperty("buttonId",idx);
+            buttons.emplace_back(btn);
+            QObject::connect(btn,SIGNAL(clicked()),this,SLOT(on_command_button_clicked()));
+        }
+    }
 }
 
 Widget::~Widget()
@@ -96,6 +115,7 @@ void Widget::on_pushButtonCloseOpenSerial_clicked()
     else serialPort->setFlowControl(static_cast<QSerialPort::FlowControl>(ui->comboBoxFlowControl->currentText().toUInt()));
     // 7.打开串口
     if(!this->serialOpenOrCloseFlag){
+        ui->groupBox->setEnabled(true);
         this->serialOpenOrCloseFlag = true;
         if(serialPort->open(QIODevice::ReadWrite)){
         ui->comboBoxBoautRate->setEnabled(false);
@@ -121,6 +141,7 @@ void Widget::on_pushButtonCloseOpenSerial_clicked()
             msg.exec();
         }
     }else{
+        ui->groupBox->setEnabled(false);
         this->serialOpenOrCloseFlag = false;
         this->serialPort->close();
         ui->comboBoxBoautRate->setEnabled(true);
@@ -143,20 +164,33 @@ void Widget::on_pushButtonCloseOpenSerial_clicked()
 void Widget::on_pushButtonSend_clicked()
 {   
     QString str = ui->lineEditSendText->text();
+    if(str == "") return;
     QByteArray sendData  = str.toUtf8();
-    // if(str.size() > 1023){
-    //     qDebug() << "lineEditSendTExt is so far!";
-    //     QMessageBox msg;
-    //     QIcon icon("提示");
-    //     msg.setWindowIcon(std::ref(icon));
-    //     msg.setWindowTitle("提示!");
-    //     msg.setText("您输入的内容过长,请缩短后再次尝试!");
-    //     msg.setStandardButtons(QMessageBox::Ok);
-    //     msg.setMinimumHeight(200);
-    //     msg.setMinimumWidth(400);
-    //     msg.exec();
-    //     return;
-    // } 
+    if(ui->checkBoxHexSend->isChecked()){
+        QString tmp = ui->lineEditSendText->text();
+        if(tmp.size() & 1){
+            ui->labelSendStatus->setText("Send Error");
+            QMessageBox msg;
+            msg.setWindowTitle("提示!");
+            msg.setText("您输入的16进制格式有误!");
+            msg.setStandardButtons(QMessageBox::Ok);
+            msg.exec();
+            return ;
+        }
+        QByteArray tmpArray = tmp.toLocal8Bit();
+        for(char ch : tmpArray){
+            if(!std::isxdigit(ch)){
+                ui->labelSendStatus->setText("Send Error");
+                QMessageBox msg;
+                msg.setWindowTitle("提示!");
+                msg.setText("您输入的16进制格式有误!");
+                msg.setStandardButtons(QMessageBox::Ok);
+                msg.exec();
+                return ;
+            }
+        }
+        sendData = QByteArray::fromHex(tmpArray);
+    }
     int cnt = this->serialPort->write(sendData);
     if(cnt == -1)ui->labelSendStatus->setText("Send Error!"),ui->labelSendCnt->setText("Send:Error");
     else {
@@ -171,12 +205,20 @@ void Widget::on_pushButtonSend_clicked()
 
 void Widget::on_SerialData_readyToRead(){
     QByteArray byteData  = this->serialPort->readAll();
-    QString str = QString::fromLocal8Bit(byteData);
-    this->ui->textEditRev->append(str);
-    // this->ui->textEditRev->insertPlainText(str);
-    this->readCount += str.size();
-    QString labelRecivedStr = QString("Received:%1").arg(this->readCount);
-    ui->labelReceived->setText(std::ref(labelRecivedStr));
+    QString str = QString::fromLocal8Bit(byteData) ;
+    QString labelRecivedStr;
+    if(ui->checkBoxHexShow->isChecked()){
+        str = '\n' + str;
+        QByteArray tmpHexString =  str.toUtf8();
+        tmpHexString = tmpHexString.toHex();
+        this->ui->textEditRev->setText(ui->textEditRev->toPlainText().toUtf8() + tmpHexString);
+    }else{
+        this->ui->textEditRev->append(str);
+        // this->ui->textEditRev->insertPlainText(str);
+    }
+        labelRecivedStr = QString("Received:%1").arg(this->readCount);  
+        this->readCount += str.size();
+        ui->labelReceived->setText(std::ref(labelRecivedStr));
 }
 
 void Widget::on_checkBoxSendInTime_clicked(bool checked)
@@ -230,5 +272,94 @@ void Widget::update_time(){
     ui->labelCurrentDate->setText(strLeft);
     ui->labelCurrentTime->setText(strRight);
 }
+
+
+
+
+void Widget::on_checkBoxHexShow_clicked(bool checked)
+{
+    if(checked){
+        // 1.读取内容
+            QString str = ui->textEditRev->toPlainText();
+        // 2.转换
+            QByteArray hex =  str.toUtf8();
+            hex = hex.toHex();
+        // 3.显示
+            QString lastShow;
+            QString temp = QString::fromUtf8(hex);
+            for(int i = 0;i < static_cast<int>(temp.size());i+= 2){
+                lastShow += temp.mid(i,2) + " ";
+            }
+            ui->textEditRev->setText(lastShow.toUpper());
+    }else{
+        QString str = ui->textEditRev->toPlainText();
+        QByteArray  arr = str.toUtf8();
+        QByteArray bStr = QByteArray::fromHex(arr);
+        ui->textEditRev->setText(QString::fromUtf8(bStr));
+    }
+
+}
+
+
+
+
+void Widget::on_pushButtonHideHistory_clicked(bool checked)
+{
+   if(checked){
+    ui->pushButtonHideHistory->setText("拓展历史");
+    ui->groupBoxRecord->hide();
+   }else{
+    ui->pushButtonHideHistory->setText("隐藏历史");
+    ui->groupBoxRecord->show();
+   }
+}
+
+
+void Widget::on_pushButtonHideTable_clicked(bool checked)
+{
+     if(checked){
+        ui->pushButtonHideTable->setText("拓展面板");
+        ui->groupBox->hide();
+    }else{
+        ui->pushButtonHideTable->setText("隐藏面板");
+        ui->groupBox->show();
+    }
+}
+
+void Widget::refreshSerialName()
+{
+    ui->comboBoxSerialNum->clear();
+    QList<QSerialPortInfo> serialList = QSerialPortInfo::availablePorts();
+    // ui->comboBoxSerialNum->setLineEdit(serialList[0]);
+    for (const QSerialPortInfo &serialInfo : serialList) {
+        std::cout << serialInfo.portName().toStdString() << std::endl;
+        ui->comboBoxSerialNum->addItem(serialInfo.portName());
+    }
+    ui->labelSendStatus->setText("Com Refresh");
+}
+
+void Widget::on_command_button_clicked(){
+    QPushButton *btn = qobject_cast<QPushButton*>(sender());
+    int num = btn->property("buttonId").toInt();
+    std::cout << num << std::endl;
+    QString lineEditName;
+    if(num < 10) lineEditName = QString("lineEdit0%1").arg(num);
+    else lineEditName = QString("lineEdit%1").arg(num);
+
+    QLineEdit* lineEdit = findChild<QLineEdit*> (lineEditName);
+    if(lineEdit != nullptr){
+        ui->lineEditSendText->setText(lineEdit->text());
+    }
+    QString checkBoxName;
+    if(num < 10) checkBoxName = QString("checkBox0%1").arg(num);
+    else checkBoxName = QString("checkBox%1").arg(num);
+
+    QCheckBox* checkBox =findChild<QCheckBox*> (checkBoxName);
+    if(checkBox->isChecked()) ui->checkBoxHexSend->setChecked(true);
+    else ui->checkBoxHexSend->setChecked(false);
+    on_pushButtonSend_clicked();
+}
+
+
 
 

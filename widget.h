@@ -18,6 +18,9 @@ public:
     Widget(QWidget *parent = nullptr);
     ~Widget();
 
+signals:
+    void refreshSerialNameChanged();
+
 private slots:
     void on_pushButtonCloseOpenSerial_clicked();
     void on_pushButtonSend_clicked();
@@ -26,6 +29,12 @@ private slots:
     void on_pushButtonReceiveClear_clicked();
     void on_pushButtonReceiveSave_clicked();
     void update_time();
+    void on_checkBoxHexShow_clicked(bool checked);
+    void on_pushButtonHideHistory_clicked(bool checked);
+    void on_pushButtonHideTable_clicked(bool checked);
+    void refreshSerialName();
+    void on_command_button_clicked();
+
 private:
     Ui::Widget *ui;
     QSerialPort * serialPort;
@@ -35,5 +44,6 @@ private:
     bool serialOpenOrCloseFlag = false; // 默认关闭
     QTimer *timer;
     QTimer* updateTimer;
+
 };
 #endif // WIDGET_H
