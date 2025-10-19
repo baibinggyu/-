@@ -1,0 +1,79 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"hasInstallRule" : true,
+					"jsonFile" : "directory-.-Debug-1df1f5ec54a3bec80bad.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.16"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "SerialMonitor",
+					"targetIndexes" : 
+					[
+						0,
+						1,
+						2
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "SerialMonitor::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-SerialMonitor-Debug-98ebfea197f198f42d22.json",
+					"name" : "SerialMonitor",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "SerialMonitor_autogen::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-SerialMonitor_autogen-Debug-2dc49ac0c2904471c7dc.json",
+					"name" : "SerialMonitor_autogen",
+					"projectIndex" : 0
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "SerialMonitor_autogen_timestamp_deps::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-SerialMonitor_autogen_timestamp_deps-Debug-f135a1f91d94d9802ee1.json",
+					"name" : "SerialMonitor_autogen_timestamp_deps",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/home/bai-yu/cpp/qt5/SerialMonitor/build/unknown-Debug",
+		"source" : "/home/bai-yu/cpp/qt5/SerialMonitor"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 7
+	}
+}

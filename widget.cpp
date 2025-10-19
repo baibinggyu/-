@@ -13,6 +13,8 @@
 #include <QByteArray>
 #include <iostream>
 #include <mycombobox.h>
+#include <QThread>
+#include <QStringList>
 #define SIZE 1024
 #define BUTTONSIZE 12
 Widget::Widget(QWidget *parent)
@@ -22,15 +24,16 @@ Widget::Widget(QWidget *parent)
     ui->setupUi(this);
     this->serialPort = new QSerialPort(this);
     this->timer = new QTimer(this);
+    this->loopSendTimer = new QTimer(this);
     this->updateTimer = new QTimer(this);
-    
     ui->groupBox->setEnabled(false);
 
     QObject::connect(this->serialPort,&QSerialPort::readyRead,this,&Widget::on_SerialData_readyToRead);
     QObject::connect(this->timer,&QTimer::timeout,[=](){on_pushButtonSend_clicked();});
+    QObject::connect(this->loopSendTimer,&QTimer::timeout,[=](){buttons_hander();});
     QObject::connect(this->updateTimer,&QTimer::timeout,[=](){update_time();});
     QObject::connect(ui->comboBoxSerialNum,&MyComboBox::refresh,this,&Widget::refreshSerialName);
-    updateTimer->start(std::chrono::milliseconds(1));
+    updateTimer->start(std::chrono::milliseconds(1000));
 
     this->setLayout(ui->gridLayoutGlobal);
     this->refreshSerialName();
@@ -42,20 +45,35 @@ Widget::Widget(QWidget *parent)
     QList<QPushButton*> buttons;
     for(int idx = 1;idx <=  BUTTONSIZE;idx++){
         QString str;
+        QString lineStr;
+        QString checkBoxsStr;
         if(idx < 10){
             str = QString("pushButton0%1").arg(idx);
+            lineStr = QString("lineEdit0%1").arg(idx);
+            checkBoxsStr = QString("checkBox0%1").arg(idx);
             std::cout << str.toStdString() << std::endl;
         }else{
             str = QString("pushButton%1").arg(idx);
+            lineStr = QString("lineEdit%1").arg(idx);
+            checkBoxsStr = QString("checkBox%1").arg(idx);
             std::cout << str.toStdString() << std::endl;
         }
         QPushButton* btn =  findChild<QPushButton*>(str);
+        QLineEdit* line = findChild<QLineEdit*>(lineStr);
+        QCheckBox* check = findChild<QCheckBox*>(checkBoxsStr);
+        if(btn == nullptr) {std::cout << __LINE__ << ":" << "QPushButton Error" << std::endl;}
+        if(line == nullptr){std::cout << __LINE__ << ":" << "QLineEdit Error" << std::endl;}
+        if(check == nullptr){std::cout << __LINE__ << ":" << "checkBox Error" << std::endl;}
+        this->buttons.push_back(btn);
+        this->lineEdits.push_back(line);
+        this->checkBoxs.push_back(check);
         if(btn != nullptr){ 
             btn->setProperty("buttonId",idx);
             buttons.emplace_back(btn);
             QObject::connect(btn,SIGNAL(clicked()),this,SLOT(on_command_button_clicked()));
         }
     }
+    ui->spinBox->setValue(100);
 }
 
 Widget::~Widget()
@@ -164,7 +182,7 @@ void Widget::on_pushButtonCloseOpenSerial_clicked()
 void Widget::on_pushButtonSend_clicked()
 {   
     QString str = ui->lineEditSendText->text();
-    if(str == "") return;
+    if(str.size() <= 0) return;
     QByteArray sendData  = str.toUtf8();
     if(ui->checkBoxHexSend->isChecked()){
         QString tmp = ui->lineEditSendText->text();
@@ -173,6 +191,8 @@ void Widget::on_pushButtonSend_clicked()
             QMessageBox msg;
             msg.setWindowTitle("提示!");
             msg.setText("您输入的16进制格式有误!");
+            ui->checkBoxLoopSent->setChecked(false);
+            ui->checkBoxHexSend->setChecked(false);
             msg.setStandardButtons(QMessageBox::Ok);
             msg.exec();
             return ;
@@ -201,6 +221,7 @@ void Widget::on_pushButtonSend_clicked()
 
     }
     ui->textEditRecord->append(str);
+    ui->textEditRecord->moveCursor(QTextCursor::End);
 }
 
 void Widget::on_SerialData_readyToRead(){
@@ -216,9 +237,10 @@ void Widget::on_SerialData_readyToRead(){
         this->ui->textEditRev->append(str);
         // this->ui->textEditRev->insertPlainText(str);
     }
-        labelRecivedStr = QString("Received:%1").arg(this->readCount);  
-        this->readCount += str.size();
-        ui->labelReceived->setText(std::ref(labelRecivedStr));
+    labelRecivedStr = QString("Received:%1").arg(this->readCount);
+    this->readCount += str.size();
+    ui->labelReceived->setText(std::ref(labelRecivedStr));
+    this->ui->textEditRev->moveCursor(QTextCursor::End);
 }
 
 void Widget::on_checkBoxSendInTime_clicked(bool checked)
@@ -332,7 +354,6 @@ void Widget::refreshSerialName()
     QList<QSerialPortInfo> serialList = QSerialPortInfo::availablePorts();
     // ui->comboBoxSerialNum->setLineEdit(serialList[0]);
     for (const QSerialPortInfo &serialInfo : serialList) {
-        std::cout << serialInfo.portName().toStdString() << std::endl;
         ui->comboBoxSerialNum->addItem(serialInfo.portName());
     }
     ui->labelSendStatus->setText("Com Refresh");
@@ -341,25 +362,106 @@ void Widget::refreshSerialName()
 void Widget::on_command_button_clicked(){
     QPushButton *btn = qobject_cast<QPushButton*>(sender());
     int num = btn->property("buttonId").toInt();
-    std::cout << num << std::endl;
     QString lineEditName;
     if(num < 10) lineEditName = QString("lineEdit0%1").arg(num);
     else lineEditName = QString("lineEdit%1").arg(num);
 
     QLineEdit* lineEdit = findChild<QLineEdit*> (lineEditName);
-    if(lineEdit != nullptr){
+    if(lineEdit != nullptr and lineEdit->text().size() > 0){
         ui->lineEditSendText->setText(lineEdit->text());
+    }else{
+        return;
     }
     QString checkBoxName;
     if(num < 10) checkBoxName = QString("checkBox0%1").arg(num);
     else checkBoxName = QString("checkBox%1").arg(num);
 
     QCheckBox* checkBox =findChild<QCheckBox*> (checkBoxName);
+    if(checkBox == nullptr) return;
     if(checkBox->isChecked()) ui->checkBoxHexSend->setChecked(true);
     else ui->checkBoxHexSend->setChecked(false);
     on_pushButtonSend_clicked();
 }
 
+void Widget::buttons_hander(){
+    std::cout << __LINE__ << std::endl;
+    if(buttonIndex < this->buttons.size()){
+        emit this->buttons[buttonIndex++]->click();
+    }else{
+        buttonIndex = 0;
+    }
+    std::cout << __LINE__ << std::endl;
+}
+
+void Widget::on_checkBoxLoopSent_clicked(bool checked)
+{
+
+    std::cout << __LINE__ << std::endl;
+    if(checked){ 
+        this->loopSendTimer->start(ui->spinBox->text().toInt());
+    }else{
+        this->buttonIndex = 0;
+        this->loopSendTimer->stop();
+    }
+
+}
 
 
+void Widget::on_pushButtonReset_clicked()
+{
+    QMessageBox msg;
+    msg.setWindowTitle("提示");
+    msg.setIcon(QMessageBox::Question);
+    msg.setText("重置列表不可逆，确认是否重置");
+    // msg.setStandardButtons(QMessageBox::Ok | QMessageBox::No);
+    QPushButton* yes = msg.addButton("确认",QMessageBox::YesRole);
+    QPushButton* no =  msg.addButton("取消",QMessageBox::NoRole);
+    msg.exec();
+    if(msg.clickedButton() == yes){
+        for(auto& x : this->checkBoxs) x->setChecked(false);
+        for(auto& x : this->lineEdits) x->setText("");
+
+    }else if(msg.clickedButton() == no){
+        std::cout << 2 << std::endl;
+    }
+}
+
+
+void Widget::on_pushButtonSave_clicked()
+{
+    QString fileName = QFileDialog::getSaveFileName(this,tr("Save File"),"./",tr("Text(*.txt)"));
+    // std::cout << fileName.toStdString() << std::endl;
+    QFile file(fileName);
+    if(file.open(QIODevice::WriteOnly | QIODevice::Text)){
+        QTextStream out(&file);
+        for(int i = 0;i < static_cast<int>(this->lineEdits.size());i++){
+            out <<  this->checkBoxs[i]->isChecked() << ',' << lineEdits[i]->text() << '\n';
+        }
+    }
+    file.close();
+}
+
+
+void Widget::on_pushButtonLoad_clicked()
+{
+    int idx = 0;
+    QString fileName = QFileDialog::getOpenFileName(this,tr("Save File"),"./",tr("Text(*.txt)"));
+    if(!fileName.size()) return ;
+    QFile file(fileName);
+    if(file.open(QIODevice::ReadOnly | QIODevice::Text)){
+        QTextStream in(&file);
+        while(!in.atEnd()){
+            QString str = in.readLine();
+            QStringList strList = str.split(",");
+            if(strList.count() == 2){
+                if(idx < this->lineEdits.size()){
+                    this->checkBoxs[idx]->setChecked(static_cast<bool>( strList[0].toUInt()));
+                    this->lineEdits[idx]->setText(strList[1]);
+                    idx++;
+                }
+            }
+        }
+
+    }
+}
 

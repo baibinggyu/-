@@ -4,6 +4,9 @@
 #include <QSerialPort>
 #include <QWidget>
 #include <QTimer>
+#include <QPushButton>
+#include <QLineEdit>
+#include <QCheckBox>
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class Widget;
@@ -34,6 +37,11 @@ private slots:
     void on_pushButtonHideTable_clicked(bool checked);
     void refreshSerialName();
     void on_command_button_clicked();
+    void on_checkBoxLoopSent_clicked(bool checked);
+    void buttons_hander();
+    void on_pushButtonReset_clicked();
+    void on_pushButtonSave_clicked();
+    void on_pushButtonLoad_clicked();
 
 private:
     Ui::Widget *ui;
@@ -44,6 +52,12 @@ private:
     bool serialOpenOrCloseFlag = false; // 默认关闭
     QTimer *timer;
     QTimer* updateTimer;
+    QList<QPushButton*> buttons;
+    QTimer *loopSendTimer;
+    int buttonIndex;
+
+    QList<QLineEdit*> lineEdits;
+    QList<QCheckBox*> checkBoxs;
 
 };
 #endif // WIDGET_H
